@@ -5,7 +5,7 @@ class GroupSection: TableSection {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
-        guard let group = self.visibleResults?[indexPath.row] as? Group else {
+        guard let group = self.visibleResults?[indexPath.row] as? Group, group.isInvalidated == false else {
             return cell
         }
         cell.textLabel?.text = group.name

@@ -116,4 +116,47 @@ class ViewController: UIViewController {
         }
         self.navigationItem.leftBarButtonItem?.title = self.customSection == nil ? "Show custom" : "Hide custom"
     }
+    
+    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
+        super.motionBegan(motion, with: event)
+        
+        if Group.allObjects().count > 19 {
+            self.realm?.beginWriteTransaction()
+            self.realm?.deleteAllObjects()
+            try? self.realm?.commitWriteTransactionWithoutNotifying([])
+            return
+        }
+
+        DispatchQueue.global(qos: .default).async {
+            for _ in 0..<20 {
+                self.addRandomGroup()
+                self.updateRandomGroup()
+                usleep(250000)
+            }
+        }
+    }
+    
+    func addRandomGroup() {
+        let realm = RLMRealm.default()
+        let newGroup = Group()
+        newGroup.name = "\(Date())"
+        newGroup.isOwned = arc4random() % 2 == 0
+        newGroup.isOrganization = arc4random() % 2 == 0
+        newGroup.isFavorite = arc4random() % 2 == 0
+        newGroup.name += newGroup.isOrganization ? " sc" : " cl"
+        realm.beginWriteTransaction()
+        realm.add(newGroup)
+        try? realm.commitWriteTransactionWithoutNotifying([])
+    }
+    
+    func updateRandomGroup() {
+        let realm = RLMRealm.default()
+        let groups = Group.allObjects()
+        let randomIndex = UInt(arc4random_uniform(UInt32(groups.count)))
+        if let group = groups.object(at: randomIndex) as? Group {
+            realm.beginWriteTransaction()
+            group.isOrganization = arc4random() % 2 == 0
+            try? realm.commitWriteTransactionWithoutNotifying([])
+        }
+    }
 }
