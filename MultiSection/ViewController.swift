@@ -6,6 +6,7 @@ class ViewController: UIViewController {
     var realm: RLMRealm?
     let tableView = UITableView()
     var sectionCollection: TableSectionCollection?
+    var customSection: CustomSection?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +23,8 @@ class ViewController: UIViewController {
             ])
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Join school", style: .plain, target: self, action: #selector(self.joinSchoolTapped))
-        
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Toggle custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
+
         let realm = RLMRealm.default()
         self.realm = realm
         
@@ -39,12 +41,16 @@ class ViewController: UIViewController {
         let addJoinedClassSection = AddButtonSection(tableView: self.tableView) { [weak self] in
             self?.showAddClassAlert(isOwned: false)
         }
+        
+        let custom = CustomSection(color: UIColor.blue, tableView: self.tableView)
+        self.customSection = custom
+        
 
         let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([ ]))
         let organizationsSection = GroupSection(results: organizations, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "orgCell", sectionTitle: "Schools")
         organizationsSection.showsHeaderWhenEmpty = false
 
-        let sections = [ownedClassesSection, addOwnedClassSection, joinedClassesSection, addJoinedClassSection, organizationsSection]
+        let sections = [ownedClassesSection, addOwnedClassSection, joinedClassesSection, addJoinedClassSection, custom, organizationsSection]
         self.sectionCollection = TableSectionCollection(sections: sections, tableView: self.tableView)
         self.tableView.dataSource = self.sectionCollection
         self.tableView.delegate = self.sectionCollection
@@ -69,5 +75,10 @@ class ViewController: UIViewController {
     
     func joinSchoolTapped() {
         self.showAddClassAlert(isOwned: false, isOrganization: true)
+    }
+    
+    func toggleCustomSection() {
+        self.customSection?.isHidden = !(self.customSection?.isHidden ?? false)
+        self.tableView.reloadData()
     }
 }

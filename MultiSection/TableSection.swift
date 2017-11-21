@@ -76,6 +76,10 @@ extension TableSection: UITableViewDelegate {
         return nil
     }
     
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UITableViewAutomaticDimension
+    }
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if self.results?.count ?? 0 > 0 || self.showsHeaderWhenEmpty {
             return UITableViewAutomaticDimension
