@@ -23,7 +23,7 @@ class ViewController: UIViewController {
             ])
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Join school", style: .plain, target: self, action: #selector(self.joinSchoolTapped))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Toggle custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Show custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
 
         let realm = RLMRealm.default()
         self.realm = realm
@@ -54,9 +54,6 @@ class ViewController: UIViewController {
             self?.showAddClassAlert(isOwned: false)
         }
         
-        let custom = CustomSection(color: UIColor.blue, tableView: self.tableView)
-        self.customSection = custom
-        
         let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([]))
         let organizationsSection = GroupSection(results: organizations,
                                                 tableView: self.tableView,
@@ -78,7 +75,6 @@ class ViewController: UIViewController {
             addOwnedClassSection,
             joinedClassesSection,
             addJoinedClassSection,
-            custom,
             organizationsSection,
             favoritesSection
         ]
@@ -109,7 +105,15 @@ class ViewController: UIViewController {
     }
     
     func toggleCustomSection() {
-        self.customSection?.isHidden = !(self.customSection?.isHidden ?? false)
-        self.tableView.reloadData()
+        if self.customSection == nil {
+            let customSection = CustomSection(color: UIColor.red, message: "Reminder: Do your homework", tableView: self.tableView)
+            self.customSection = customSection
+            self.sectionCollection?.sections.insert(customSection, at: 0)
+        }
+        else {
+            self.customSection = nil
+            self.sectionCollection?.sections.remove(at: 0)
+        }
+        self.navigationItem.leftBarButtonItem?.title = self.customSection == nil ? "Show custom" : "Hide custom"
     }
 }

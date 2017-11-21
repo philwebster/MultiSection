@@ -2,11 +2,20 @@ import UIKit
 
 class TableSectionCollection: TableSection {
     
-    var sections: [TableSection]
+    var sections: [TableSection] {
+        didSet {
+            self.setSectionDelegates()
+            self.table?.reloadData()
+        }
+    }
     
     init(sections: [TableSection], tableView: UITableView) {
         self.sections = sections
         super.init(results: nil, tableView: tableView)
+        self.setSectionDelegates()
+    }
+    
+    func setSectionDelegates() {
         self.sections.forEach { $0.delegate = self }
     }
 }
