@@ -48,6 +48,10 @@ extension TableSectionCollection {
         self.sections[indexPath.section].tableView(tableView, didSelectRowAt: indexPath)
     }
     
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.sections[indexPath.section].tableView(tableView, didDeselectRowAt: indexPath)
+    }
+    
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return self.sections[section].tableView(tableView, titleForHeaderInSection: section)
     }
