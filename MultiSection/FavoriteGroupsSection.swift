@@ -4,11 +4,11 @@ import UIKit
 class FavoriteGroupsSection: TableSection {
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.visibleResults?.count == 0 ? 0 : 44
+        return self.frozenResults?.count == 0 ? 0 : 44
     }
     
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        if self.visibleResults?.count == 0 {
+        if self.frozenResults?.count == 0 {
             return nil
         }
 
@@ -23,7 +23,7 @@ class FavoriteGroupsSection: TableSection {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
-        guard let group = self.visibleResults?[indexPath.row] as? Group, group.isInvalidated == false else {
+        guard let group = self.frozenResults?[indexPath.row] as? Group, group.isInvalidated == false else {
             return cell
         }
         cell.textLabel?.text = group.name
@@ -32,7 +32,7 @@ class FavoriteGroupsSection: TableSection {
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        if let classToDelete = self.visibleResults?[indexPath.row] as? Group {
+        if let classToDelete = self.frozenResults?[indexPath.row] as? Group {
             let title = classToDelete.isOwned ? "Delete" : "Leave"
             let action = UIContextualAction(style: .destructive, title: title, handler: { (action, sourceView, completionHandler) in
                 self.results?.realm.beginWriteTransaction()

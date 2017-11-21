@@ -8,7 +8,7 @@ protocol TableSectionDelegate: class {
 class TableSection: NSObject {
     
     var results: RLMResults<AnyObject>?
-    var visibleResults: [RLMObject]?
+    var frozenResults: [RLMObject]?
     weak var table: UITableView?
     var sectionTitle: String?
     var showsHeaderWhenEmpty = true
@@ -24,7 +24,7 @@ class TableSection: NSObject {
          sectionTitle: String? = nil) {
 
         self.results = results
-        self.visibleResults = results?.allObjects
+        self.frozenResults = results?.allObjects
         self.table = tableView
         self.cellClass = cellClass
         self.cellReuseIdentifier = cellReuseIdentifier
@@ -45,7 +45,7 @@ class TableSection: NSObject {
         let modifications = change?.modifications.map { IndexPath(row: Int($0), section: sectionIndex) } ?? []
 
         self.table?.beginUpdates()
-        self.visibleResults = results?.allObjects
+        self.frozenResults = results?.allObjects
         self.table?.insertRows(at: additions, with: .automatic)
         self.table?.deleteRows(at: deletions, with: .automatic)
         self.table?.reloadRows(at: modifications, with: .automatic)
@@ -60,7 +60,7 @@ extension TableSection: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return Int(self.visibleResults?.count ?? 0)
+        return Int(self.frozenResults?.count ?? 0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -75,7 +75,7 @@ extension TableSection: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        if self.visibleResults?.count ?? 0 > 0 || self.showsHeaderWhenEmpty {
+        if self.frozenResults?.count ?? 0 > 0 || self.showsHeaderWhenEmpty {
             return self.sectionTitle
         }
         return nil
@@ -90,7 +90,7 @@ extension TableSection: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.visibleResults?.count ?? 0 > 0 || self.showsHeaderWhenEmpty {
+        if self.frozenResults?.count ?? 0 > 0 || self.showsHeaderWhenEmpty {
             return UITableViewAutomaticDimension
         }
         return 0
