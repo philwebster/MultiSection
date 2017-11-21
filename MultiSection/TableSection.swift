@@ -17,7 +17,12 @@ class TableSection: NSObject {
     weak var delegate: TableSectionDelegate?
     var changeToken: RLMNotificationToken?
     
-    init(results: RLMResults<AnyObject>?, tableView: UITableView, cellClass: UITableViewCell.Type = UITableViewCell.self, cellReuseIdentifier: String = "cell", sectionTitle: String? = nil) {
+    init(results: RLMResults<AnyObject>?,
+         tableView: UITableView,
+         cellClass: UITableViewCell.Type = UITableViewCell.self,
+         cellReuseIdentifier: String = "cell",
+         sectionTitle: String? = nil) {
+
         self.results = results
         self.visibleResults = results?.allObjects
         self.table = tableView

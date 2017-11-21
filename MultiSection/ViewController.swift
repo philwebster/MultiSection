@@ -28,15 +28,27 @@ class ViewController: UIViewController {
         let realm = RLMRealm.default()
         self.realm = realm
         
-        let ownedClasses = Group.allObjects(in: realm).objectsWhere("SELF.isOwned == TRUE", args: getVaList([ ]))
-        let ownedClassesSection = GroupSection(results: ownedClasses, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "ownedCell", sectionTitle: "Owned Classes")
+        let nameSort = RLMSortDescriptor(keyPath: "name", ascending: true)
+        
+        let ownedPredicate = "SELF.isOwned == TRUE"
+        let ownedClasses = Group.allObjects(in: realm).objectsWhere(ownedPredicate, args: getVaList([])).sortedResults(using: [nameSort])
+        let ownedClassesSection = GroupSection(results: ownedClasses,
+                                               tableView: self.tableView,
+                                               cellClass: UITableViewCell.self,
+                                               cellReuseIdentifier: "ownedCell",
+                                               sectionTitle: "Owned Classes")
         
         let addOwnedClassSection = AddButtonSection(tableView: self.tableView) { [weak self] in
             self?.showAddClassAlert(isOwned: true)
         }
         
-        let joinedClasses = Group.allObjects(in: realm).objectsWhere("SELF.isOwned == FALSE && SELF.isOrganization == FALSE", args: getVaList([ ]))
-        let joinedClassesSection = GroupSection(results: joinedClasses, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "joinedCell", sectionTitle: "Joined Classes")
+        let joinedPredicate = "SELF.isOwned == FALSE && SELF.isOrganization == FALSE"
+        let joinedClasses = Group.allObjects(in: realm).objectsWhere(joinedPredicate, args: getVaList([])).sortedResults(using: [nameSort])
+        let joinedClassesSection = GroupSection(results: joinedClasses,
+                                                tableView: self.tableView,
+                                                cellClass: UITableViewCell.self,
+                                                cellReuseIdentifier: "joinedCell",
+                                                sectionTitle: "Joined Classes")
         
         let addJoinedClassSection = AddButtonSection(tableView: self.tableView) { [weak self] in
             self?.showAddClassAlert(isOwned: false)
@@ -45,16 +57,31 @@ class ViewController: UIViewController {
         let custom = CustomSection(color: UIColor.blue, tableView: self.tableView)
         self.customSection = custom
         
-
-        let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([ ]))
-        let organizationsSection = GroupSection(results: organizations, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "orgCell", sectionTitle: "Schools")
+        let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([]))
+        let organizationsSection = GroupSection(results: organizations,
+                                                tableView: self.tableView,
+                                                cellClass: UITableViewCell.self,
+                                                cellReuseIdentifier: "orgCell",
+                                                sectionTitle: "Schools")
         organizationsSection.showsHeaderWhenEmpty = false
         
         let favorites = Group.allObjects(in: realm).objectsWhere("SELF.isFavorite == TRUE", args: getVaList([ ]))
-        let favoritesSection = FavoriteGroupsSection(results: favorites, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "favoriteCell", sectionTitle: "Favorites")
+        let favoritesSection = FavoriteGroupsSection(results: favorites,
+                                                     tableView: self.tableView,
+                                                     cellClass: UITableViewCell.self,
+                                                     cellReuseIdentifier: "favoriteCell",
+                                                     sectionTitle: "Favorites")
         favoritesSection.showsHeaderWhenEmpty = false
 
-        let sections = [ownedClassesSection, addOwnedClassSection, joinedClassesSection, addJoinedClassSection, custom, organizationsSection, favoritesSection]
+        let sections = [
+            ownedClassesSection,
+            addOwnedClassSection,
+            joinedClassesSection,
+            addJoinedClassSection,
+            custom,
+            organizationsSection,
+            favoritesSection
+        ]
         self.sectionCollection = TableSectionCollection(sections: sections, tableView: self.tableView)
         self.tableView.dataSource = self.sectionCollection
         self.tableView.delegate = self.sectionCollection
