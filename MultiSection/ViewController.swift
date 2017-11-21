@@ -23,7 +23,7 @@ class ViewController: UIViewController {
             ])
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Join school", style: .plain, target: self, action: #selector(self.joinSchoolTapped))
-        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Show custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Add custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
 
         let realm = RLMRealm.default()
         self.realm = realm
@@ -114,36 +114,58 @@ class ViewController: UIViewController {
             self.customSection = nil
             self.sectionCollection?.sections.remove(at: 0)
         }
-        self.navigationItem.leftBarButtonItem?.title = self.customSection == nil ? "Show custom" : "Hide custom"
+        self.navigationItem.leftBarButtonItem?.title = self.customSection == nil ? "Add custom" : "Remove custom"
     }
     
     override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
         super.motionBegan(motion, with: event)
         
         if Group.allObjects().count > 19 {
-            self.realm?.beginWriteTransaction()
-            self.realm?.deleteAllObjects()
-            try? self.realm?.commitWriteTransactionWithoutNotifying([])
+            self.deleteAllObjects()
             return
         }
-
-        DispatchQueue.global(qos: .default).async {
+        
+        Thread {
             for _ in 0..<20 {
                 self.addRandomGroup()
+                usleep(250000)
+            }
+        }.start()
+        
+        Thread {
+            for _ in 0..<20 {
                 self.updateRandomGroup()
                 usleep(250000)
             }
-        }
+        }.start()
+        
+        Thread {
+            for _ in 0..<10 {
+                self.deleteRandomGroup()
+                usleep(500000)
+            }
+        }.start()
+    }
+    
+    func deleteAllObjects() {
+        Thread {
+            let realm = RLMRealm.default()
+            realm.beginWriteTransaction()
+            realm.deleteAllObjects()
+            try? realm.commitWriteTransactionWithoutNotifying([])
+        }.start()
     }
     
     func addRandomGroup() {
         let realm = RLMRealm.default()
         let newGroup = Group()
-        newGroup.name = "\(Date())"
+        newGroup.name = "\(String(describing: Calendar.current.dateComponents([.nanosecond], from: Date()).nanosecond!))"
         newGroup.isOwned = arc4random() % 2 == 0
-        newGroup.isOrganization = arc4random() % 2 == 0
+        if !newGroup.isOwned {
+            newGroup.isOrganization = arc4random() % 2 == 0
+        }
         newGroup.isFavorite = arc4random() % 2 == 0
-        newGroup.name += newGroup.isOrganization ? " sc" : " cl"
+        newGroup.name = (newGroup.isOrganization ? "school " : "class ") + newGroup.name
         realm.beginWriteTransaction()
         realm.add(newGroup)
         try? realm.commitWriteTransactionWithoutNotifying([])
@@ -153,10 +175,29 @@ class ViewController: UIViewController {
         let realm = RLMRealm.default()
         let groups = Group.allObjects()
         let randomIndex = UInt(arc4random_uniform(UInt32(groups.count)))
-        if let group = groups.object(at: randomIndex) as? Group {
-            realm.beginWriteTransaction()
-            group.isOrganization = arc4random() % 2 == 0
+        realm.beginWriteTransaction()
+        guard randomIndex < groups.count else {
             try? realm.commitWriteTransactionWithoutNotifying([])
+            return
         }
+        if let group = groups.object(at: randomIndex) as? Group, group.isInvalidated == false {
+            group.isOrganization = arc4random() % 2 == 0
+        }
+        try? realm.commitWriteTransactionWithoutNotifying([])
+    }
+    
+    func deleteRandomGroup() {
+        let realm = RLMRealm.default()
+        let groups = Group.allObjects()
+        let randomIndex = UInt(arc4random_uniform(UInt32(groups.count)))
+        realm.beginWriteTransaction()
+        guard randomIndex < groups.count else {
+            try? realm.commitWriteTransactionWithoutNotifying([])
+            return
+        }
+        if let group = groups.object(at: randomIndex) as? Group, group.isInvalidated == false {
+            realm.delete(group)
+        }
+        try? realm.commitWriteTransactionWithoutNotifying([])
     }
 }

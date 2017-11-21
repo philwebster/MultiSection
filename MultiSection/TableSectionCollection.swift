@@ -56,6 +56,10 @@ extension TableSectionCollection {
         return self.sections[indexPath.section].tableView(tableView, heightForRowAt: indexPath)
     }
     
+    override func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
+        return self.sections[indexPath.section].tableView(tableView, estimatedHeightForRowAt:indexPath)
+    }
+    
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return self.sections[section].tableView(tableView, heightForHeaderInSection: section)
     }
