@@ -7,19 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D31ACD491FC39F7400F1D489 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D31ACD481FC39F7400F1D489 /* AppDelegate.m */; };
-		D31ACD4C1FC39F7400F1D489 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D31ACD4B1FC39F7400F1D489 /* ViewController.m */; };
 		D31ACD511FC39F7400F1D489 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D31ACD501FC39F7400F1D489 /* Assets.xcassets */; };
 		D31ACD541FC39F7400F1D489 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D31ACD521FC39F7400F1D489 /* LaunchScreen.storyboard */; };
-		D31ACD571FC39F7400F1D489 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D31ACD561FC39F7400F1D489 /* main.m */; };
 		D31ACD611FC39F7400F1D489 /* MultiSectionTests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31ACD601FC39F7400F1D489 /* MultiSectionTests.m */; };
 		D31ACD6C1FC39F7400F1D489 /* MultiSectionUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31ACD6B1FC39F7400F1D489 /* MultiSectionUITests.m */; };
+		D3DC27F31FC40D0F00A7E81F /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27F21FC40D0F00A7E81F /* TableSection.swift */; };
+		D3DC27F51FC4116500A7E81F /* TableSectionCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27F41FC4116500A7E81F /* TableSectionCollection.swift */; };
+		D3DC27F91FC425EE00A7E81F /* AddButtonSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */; };
+		D3DC27FB1FC4278300A7E81F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27FA1FC4278300A7E81F /* ViewController.swift */; };
+		D3DC28371FC4326500A7E81F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC28361FC4326500A7E81F /* AppDelegate.swift */; };
 		D3F6A7641FC3A3A5003E5CD0 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F6A7631FC3A3A5003E5CD0 /* Realm.framework */; };
-		D3F6A7681FC3AE84003E5CD0 /* Models.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A7671FC3AE84003E5CD0 /* Models.m */; };
-		D3F6A76B1FC3BCAE003E5CD0 /* RDSectionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A76A1FC3BCAE003E5CD0 /* RDSectionDataSource.m */; };
-		D3F6A76E1FC3BD23003E5CD0 /* RDMultiSectionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A76D1FC3BD23003E5CD0 /* RDMultiSectionDataSource.m */; };
-		D3F6A7711FC3BD8E003E5CD0 /* RDDogSectionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A7701FC3BD8E003E5CD0 /* RDDogSectionDataSource.m */; };
-		D3F6A7741FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A7731FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.m */; };
+		D3F6A7F81FC40675003E5CD0 /* GroupSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A7F71FC40675003E5CD0 /* GroupSection.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,31 +39,22 @@
 
 /* Begin PBXFileReference section */
 		D31ACD441FC39F7400F1D489 /* MultiSection.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MultiSection.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		D31ACD471FC39F7400F1D489 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		D31ACD481FC39F7400F1D489 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		D31ACD4A1FC39F7400F1D489 /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		D31ACD4B1FC39F7400F1D489 /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
 		D31ACD501FC39F7400F1D489 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D31ACD531FC39F7400F1D489 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D31ACD551FC39F7400F1D489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D31ACD561FC39F7400F1D489 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		D31ACD5C1FC39F7400F1D489 /* MultiSectionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiSectionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31ACD601FC39F7400F1D489 /* MultiSectionTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiSectionTests.m; sourceTree = "<group>"; };
 		D31ACD621FC39F7400F1D489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D31ACD671FC39F7400F1D489 /* MultiSectionUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MultiSectionUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D31ACD6B1FC39F7400F1D489 /* MultiSectionUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MultiSectionUITests.m; sourceTree = "<group>"; };
 		D31ACD6D1FC39F7400F1D489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D3DC27F21FC40D0F00A7E81F /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
+		D3DC27F41FC4116500A7E81F /* TableSectionCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSectionCollection.swift; sourceTree = "<group>"; };
+		D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonSection.swift; sourceTree = "<group>"; };
+		D3DC27FA1FC4278300A7E81F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D3DC28361FC4326500A7E81F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3F6A7631FC3A3A5003E5CD0 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
-		D3F6A7661FC3AE84003E5CD0 /* Models.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Models.h; sourceTree = "<group>"; };
-		D3F6A7671FC3AE84003E5CD0 /* Models.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Models.m; sourceTree = "<group>"; };
-		D3F6A7691FC3BCAE003E5CD0 /* RDSectionDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDSectionDataSource.h; sourceTree = "<group>"; };
-		D3F6A76A1FC3BCAE003E5CD0 /* RDSectionDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDSectionDataSource.m; sourceTree = "<group>"; };
-		D3F6A76C1FC3BD23003E5CD0 /* RDMultiSectionDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDMultiSectionDataSource.h; sourceTree = "<group>"; };
-		D3F6A76D1FC3BD23003E5CD0 /* RDMultiSectionDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDMultiSectionDataSource.m; sourceTree = "<group>"; };
-		D3F6A76F1FC3BD8E003E5CD0 /* RDDogSectionDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDDogSectionDataSource.h; sourceTree = "<group>"; };
-		D3F6A7701FC3BD8E003E5CD0 /* RDDogSectionDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDDogSectionDataSource.m; sourceTree = "<group>"; };
-		D3F6A7721FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RDPeopleSectionDataSource.h; sourceTree = "<group>"; };
-		D3F6A7731FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RDPeopleSectionDataSource.m; sourceTree = "<group>"; };
+		D3F6A7F71FC40675003E5CD0 /* GroupSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,24 +107,15 @@
 		D31ACD461FC39F7400F1D489 /* MultiSection */ = {
 			isa = PBXGroup;
 			children = (
-				D31ACD471FC39F7400F1D489 /* AppDelegate.h */,
-				D31ACD481FC39F7400F1D489 /* AppDelegate.m */,
-				D31ACD4A1FC39F7400F1D489 /* ViewController.h */,
-				D31ACD4B1FC39F7400F1D489 /* ViewController.m */,
-				D3F6A7721FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.h */,
-				D3F6A7731FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.m */,
-				D3F6A76F1FC3BD8E003E5CD0 /* RDDogSectionDataSource.h */,
-				D3F6A7701FC3BD8E003E5CD0 /* RDDogSectionDataSource.m */,
-				D3F6A76C1FC3BD23003E5CD0 /* RDMultiSectionDataSource.h */,
-				D3F6A76D1FC3BD23003E5CD0 /* RDMultiSectionDataSource.m */,
-				D3F6A7691FC3BCAE003E5CD0 /* RDSectionDataSource.h */,
-				D3F6A76A1FC3BCAE003E5CD0 /* RDSectionDataSource.m */,
-				D3F6A7661FC3AE84003E5CD0 /* Models.h */,
-				D3F6A7671FC3AE84003E5CD0 /* Models.m */,
+				D3DC28361FC4326500A7E81F /* AppDelegate.swift */,
+				D3DC27FA1FC4278300A7E81F /* ViewController.swift */,
+				D3F6A7F71FC40675003E5CD0 /* GroupSection.swift */,
+				D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */,
+				D3DC27F21FC40D0F00A7E81F /* TableSection.swift */,
+				D3DC27F41FC4116500A7E81F /* TableSectionCollection.swift */,
 				D31ACD501FC39F7400F1D489 /* Assets.xcassets */,
 				D31ACD521FC39F7400F1D489 /* LaunchScreen.storyboard */,
 				D31ACD551FC39F7400F1D489 /* Info.plist */,
-				D31ACD561FC39F7400F1D489 /* main.m */,
 			);
 			path = MultiSection;
 			sourceTree = "<group>";
@@ -234,6 +214,7 @@
 				TargetAttributes = {
 					D31ACD431FC39F7400F1D489 = {
 						CreatedOnToolsVersion = 9.2;
+						LastSwiftMigration = 0920;
 						ProvisioningStyle = Manual;
 					};
 					D31ACD5B1FC39F7400F1D489 = {
@@ -316,14 +297,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D31ACD4C1FC39F7400F1D489 /* ViewController.m in Sources */,
-				D3F6A7741FC3BDC9003E5CD0 /* RDPeopleSectionDataSource.m in Sources */,
-				D31ACD571FC39F7400F1D489 /* main.m in Sources */,
-				D3F6A7711FC3BD8E003E5CD0 /* RDDogSectionDataSource.m in Sources */,
-				D31ACD491FC39F7400F1D489 /* AppDelegate.m in Sources */,
-				D3F6A7681FC3AE84003E5CD0 /* Models.m in Sources */,
-				D3F6A76E1FC3BD23003E5CD0 /* RDMultiSectionDataSource.m in Sources */,
-				D3F6A76B1FC3BCAE003E5CD0 /* RDSectionDataSource.m in Sources */,
+				D3DC28371FC4326500A7E81F /* AppDelegate.swift in Sources */,
+				D3DC27F51FC4116500A7E81F /* TableSectionCollection.swift in Sources */,
+				D3DC27F31FC40D0F00A7E81F /* TableSection.swift in Sources */,
+				D3F6A7F81FC40675003E5CD0 /* GroupSection.swift in Sources */,
+				D3DC27FB1FC4278300A7E81F /* ViewController.swift in Sources */,
+				D3DC27F91FC425EE00A7E81F /* AddButtonSection.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,6 +457,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -489,6 +469,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.phil.MultiSection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -497,6 +479,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = "";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -508,6 +491,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.phil.MultiSection;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -515,6 +499,7 @@
 		D31ACD741FC39F7400F1D489 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V9RH239UZW;
@@ -530,6 +515,7 @@
 		D31ACD751FC39F7400F1D489 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V9RH239UZW;
@@ -545,6 +531,7 @@
 		D31ACD771FC39F7400F1D489 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V9RH239UZW;
 				INFOPLIST_FILE = MultiSectionUITests/Info.plist;
@@ -559,6 +546,7 @@
 		D31ACD781FC39F7400F1D489 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = V9RH239UZW;
 				INFOPLIST_FILE = MultiSectionUITests/Info.plist;
