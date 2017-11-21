@@ -27,7 +27,7 @@ class FavoriteGroupsSection: TableSection {
             return cell
         }
         cell.textLabel?.text = group.name
-        cell.accessoryType = .checkmark
+        cell.selectionStyle = .none
         return cell
     }
     

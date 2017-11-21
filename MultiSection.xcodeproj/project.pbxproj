@@ -13,6 +13,7 @@
 		D31ACD6C1FC39F7400F1D489 /* MultiSectionUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = D31ACD6B1FC39F7400F1D489 /* MultiSectionUITests.m */; };
 		D33B5D911FC45BAE0035780C /* RealmUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33B5D901FC45BAE0035780C /* RealmUtility.swift */; };
 		D33B5D931FC4B9B40035780C /* VariedHeightSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33B5D921FC4B9B40035780C /* VariedHeightSection.swift */; };
+		D33B5D951FC4E25A0035780C /* AllClassesSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33B5D941FC4E25A0035780C /* AllClassesSection.swift */; };
 		D3DC27F31FC40D0F00A7E81F /* TableSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27F21FC40D0F00A7E81F /* TableSection.swift */; };
 		D3DC27F51FC4116500A7E81F /* TableSectionCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27F41FC4116500A7E81F /* TableSectionCollection.swift */; };
 		D3DC27F91FC425EE00A7E81F /* AddButtonSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */; };
@@ -55,6 +56,7 @@
 		D31ACD6D1FC39F7400F1D489 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D33B5D901FC45BAE0035780C /* RealmUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmUtility.swift; sourceTree = "<group>"; };
 		D33B5D921FC4B9B40035780C /* VariedHeightSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VariedHeightSection.swift; sourceTree = "<group>"; };
+		D33B5D941FC4E25A0035780C /* AllClassesSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllClassesSection.swift; sourceTree = "<group>"; };
 		D3DC27F21FC40D0F00A7E81F /* TableSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSection.swift; sourceTree = "<group>"; };
 		D3DC27F41FC4116500A7E81F /* TableSectionCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableSectionCollection.swift; sourceTree = "<group>"; };
 		D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddButtonSection.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				D33B5D921FC4B9B40035780C /* VariedHeightSection.swift */,
 				D3DC283C1FC4391600A7E81F /* FavoriteGroupsSection.swift */,
 				D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */,
+				D33B5D941FC4E25A0035780C /* AllClassesSection.swift */,
 				D3DC283A1FC4347300A7E81F /* CustomSection.swift */,
 				D3DC283E1FC4392F00A7E81F /* Group.swift */,
 				D33B5D901FC45BAE0035780C /* RealmUtility.swift */,
@@ -318,6 +321,7 @@
 				D3DC27F31FC40D0F00A7E81F /* TableSection.swift in Sources */,
 				D33B5D911FC45BAE0035780C /* RealmUtility.swift in Sources */,
 				D3DC283D1FC4391600A7E81F /* FavoriteGroupsSection.swift in Sources */,
+				D33B5D951FC4E25A0035780C /* AllClassesSection.swift in Sources */,
 				D3F6A7F81FC40675003E5CD0 /* GroupSection.swift in Sources */,
 				D3DC27FB1FC4278300A7E81F /* ViewController.swift in Sources */,
 				D3DC283B1FC4347300A7E81F /* CustomSection.swift in Sources */,

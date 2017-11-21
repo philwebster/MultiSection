@@ -44,6 +44,10 @@ extension TableSectionCollection {
 
 extension TableSectionCollection {
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        return self.sections[indexPath.section].tableView(tableView, willSelectRowAt: indexPath)
+    }
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.sections[indexPath.section].tableView(tableView, didSelectRowAt: indexPath)
     }

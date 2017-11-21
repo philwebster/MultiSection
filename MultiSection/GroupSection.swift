@@ -1,25 +1,73 @@
 import Realm
 import UIKit
 
-class GroupSection: TableSection {
+protocol GroupCellDelegate: class {
+    func groupCell(_ cell: GroupCell, tappedFavorite: Bool)
+}
+
+class GroupCell: UITableViewCell {
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
-        guard let group = self.frozenResults?[indexPath.row] as? Group, group.isInvalidated == false else {
-            return cell
-        }
-        cell.textLabel?.text = group.name
-        cell.accessoryType = group.isFavorite ? .checkmark : .none
-        return cell
+    var favoriteButton = UIButton(type: .system)
+    weak var delegate: GroupCellDelegate?
+
+    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.accessoryView = self.favoriteButton
+        self.favoriteButton.addTarget(self, action: #selector(self.tappedFavorite(_:)), for: .touchUpInside)
     }
     
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func setFavorited(favorited: Bool) {
+        self.favoriteButton.setTitle(favorited ? "⭐️" : "☆", for: .normal)
+        self.favoriteButton.sizeToFit()
+    }
+    
+    func tappedFavorite(_ sender: UIButton) {
+        let favorite = sender.title(for: .normal) == "☆"
+        self.delegate?.groupCell(self, tappedFavorite: favorite)
+    }
+}
+
+protocol GroupSectionSelectionDelegate: class {
+    func groupSection(_ groupSection: GroupSection, didSelect group: Group?)
+}
+
+class GroupSection: TableSection {
+    
+    weak var selectionDelegate: GroupSectionSelectionDelegate?
+    var selectedIndexPath: IndexPath?
+    
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath), let group = self.frozenResults?[indexPath.row] as? Group else {
+        guard let group = self.frozenResults?[indexPath.row] as? Group else {
             return
         }
-        self.results?.realm.beginWriteTransaction()
-        group.isFavorite = cell.accessoryType == .checkmark ? false : true
-        try? self.results?.realm.commitWriteTransactionWithoutNotifying([])
+        self.selectedIndexPath = indexPath
+        self.selectionDelegate?.groupSection(self, didSelect: group)
+    }
+    
+    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        self.selectedIndexPath = nil
+        self.selectionDelegate?.groupSection(self, didSelect: nil)
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let c = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
+        guard let group = self.frozenResults?[indexPath.row] as? Group, group.isInvalidated == false,
+            let cell = c as? GroupCell else {
+            return c
+        }
+        cell.textLabel?.text = group.name
+        cell.setFavorited(favorited: group.isFavorite)
+        cell.delegate = self
+        
+        if (indexPath == self.selectedIndexPath) {
+            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
+        }
+        
+        return cell
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
@@ -35,5 +83,18 @@ class GroupSection: TableSection {
         }
         
         return nil
+    }
+}
+
+extension GroupSection: GroupCellDelegate {
+    func groupCell(_ cell: GroupCell, tappedFavorite: Bool) {
+        guard let indexPath = self.table?.indexPath(for: cell),
+            let group = self.frozenResults?[indexPath.row] as? Group,
+            group.isInvalidated == false else {
+            return
+        }
+        self.results?.realm.beginWriteTransaction()
+        group.isFavorite = tappedFavorite
+        try? self.results?.realm.commitWriteTransactionWithoutNotifying([])
     }
 }

@@ -48,6 +48,7 @@ class CustomSection: TableSection {
         
         colorCell.contentView.backgroundColor = self.color
         colorCell.messageLabel.text = self.message
+        colorCell.selectionStyle = .none
         
         return colorCell
     }

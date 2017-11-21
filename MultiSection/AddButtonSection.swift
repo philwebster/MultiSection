@@ -8,10 +8,10 @@ class AddButtonSection: TableSection {
         self.tapHandler = tapHandler
         super.init(results: nil, tableView: tableView)
     }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)
+
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         self.tapHandler()
+        return nil
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -21,6 +21,7 @@ class AddButtonSection: TableSection {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
         cell.textLabel?.text = "+"
+        cell.selectionStyle = .none
         return cell
     }
     
