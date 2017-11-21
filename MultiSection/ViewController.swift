@@ -49,8 +49,12 @@ class ViewController: UIViewController {
         let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([ ]))
         let organizationsSection = GroupSection(results: organizations, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "orgCell", sectionTitle: "Schools")
         organizationsSection.showsHeaderWhenEmpty = false
+        
+        let favorites = Group.allObjects(in: realm).objectsWhere("SELF.isFavorite == TRUE", args: getVaList([ ]))
+        let favoritesSection = FavoriteGroupsSection(results: favorites, tableView: self.tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "favoriteCell", sectionTitle: "Favorites")
+        favoritesSection.showsHeaderWhenEmpty = false
 
-        let sections = [ownedClassesSection, addOwnedClassSection, joinedClassesSection, addJoinedClassSection, custom, organizationsSection]
+        let sections = [ownedClassesSection, addOwnedClassSection, joinedClassesSection, addJoinedClassSection, custom, organizationsSection, favoritesSection]
         self.sectionCollection = TableSectionCollection(sections: sections, tableView: self.tableView)
         self.tableView.dataSource = self.sectionCollection
         self.tableView.delegate = self.sectionCollection

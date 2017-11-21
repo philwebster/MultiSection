@@ -17,6 +17,8 @@
 		D3DC27FB1FC4278300A7E81F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC27FA1FC4278300A7E81F /* ViewController.swift */; };
 		D3DC28371FC4326500A7E81F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC28361FC4326500A7E81F /* AppDelegate.swift */; };
 		D3DC283B1FC4347300A7E81F /* CustomSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC283A1FC4347300A7E81F /* CustomSection.swift */; };
+		D3DC283D1FC4391600A7E81F /* FavoriteGroupsSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC283C1FC4391600A7E81F /* FavoriteGroupsSection.swift */; };
+		D3DC283F1FC4392F00A7E81F /* Group.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3DC283E1FC4392F00A7E81F /* Group.swift */; };
 		D3F6A7641FC3A3A5003E5CD0 /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3F6A7631FC3A3A5003E5CD0 /* Realm.framework */; };
 		D3F6A7F81FC40675003E5CD0 /* GroupSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = D3F6A7F71FC40675003E5CD0 /* GroupSection.swift */; };
 /* End PBXBuildFile section */
@@ -55,6 +57,8 @@
 		D3DC27FA1FC4278300A7E81F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D3DC28361FC4326500A7E81F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D3DC283A1FC4347300A7E81F /* CustomSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomSection.swift; sourceTree = "<group>"; };
+		D3DC283C1FC4391600A7E81F /* FavoriteGroupsSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoriteGroupsSection.swift; sourceTree = "<group>"; };
+		D3DC283E1FC4392F00A7E81F /* Group.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Group.swift; sourceTree = "<group>"; };
 		D3F6A7631FC3A3A5003E5CD0 /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		D3F6A7F71FC40675003E5CD0 /* GroupSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupSection.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -112,6 +116,8 @@
 				D3DC28361FC4326500A7E81F /* AppDelegate.swift */,
 				D3DC27FA1FC4278300A7E81F /* ViewController.swift */,
 				D3F6A7F71FC40675003E5CD0 /* GroupSection.swift */,
+				D3DC283E1FC4392F00A7E81F /* Group.swift */,
+				D3DC283C1FC4391600A7E81F /* FavoriteGroupsSection.swift */,
 				D3DC27F81FC425EE00A7E81F /* AddButtonSection.swift */,
 				D3DC283A1FC4347300A7E81F /* CustomSection.swift */,
 				D3DC27F21FC40D0F00A7E81F /* TableSection.swift */,
@@ -218,7 +224,7 @@
 					D31ACD431FC39F7400F1D489 = {
 						CreatedOnToolsVersion = 9.2;
 						LastSwiftMigration = 0920;
-						ProvisioningStyle = Manual;
+						ProvisioningStyle = Automatic;
 					};
 					D31ACD5B1FC39F7400F1D489 = {
 						CreatedOnToolsVersion = 9.2;
@@ -300,9 +306,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D3DC283F1FC4392F00A7E81F /* Group.swift in Sources */,
 				D3DC28371FC4326500A7E81F /* AppDelegate.swift in Sources */,
 				D3DC27F51FC4116500A7E81F /* TableSectionCollection.swift in Sources */,
 				D3DC27F31FC40D0F00A7E81F /* TableSection.swift in Sources */,
+				D3DC283D1FC4391600A7E81F /* FavoriteGroupsSection.swift in Sources */,
 				D3F6A7F81FC40675003E5CD0 /* GroupSection.swift in Sources */,
 				D3DC27FB1FC4278300A7E81F /* ViewController.swift in Sources */,
 				D3DC283B1FC4347300A7E81F /* CustomSection.swift in Sources */,
@@ -462,8 +470,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = V9RH239UZW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
@@ -484,8 +493,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_STYLE = Manual;
-				DEVELOPMENT_TEAM = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = V9RH239UZW;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",

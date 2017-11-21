@@ -1,7 +1,25 @@
 import Realm
 import UIKit
 
-class GroupSection: TableSection {
+class FavoriteGroupsSection: TableSection {
+    
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return self.visibleResults?.count == 0 ? 0 : 44
+    }
+    
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        if self.visibleResults?.count == 0 {
+            return nil
+        }
+
+        let bigLabel = UILabel()
+        bigLabel.textAlignment = .center
+        bigLabel.text = "⭐️ Favorites ⭐️"
+        bigLabel.font = UIFont.systemFont(ofSize: 16)
+        bigLabel.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        bigLabel.backgroundColor = UIColor(displayP3Red: 0.97, green: 0.97, blue: 0.97, alpha: 1)
+        return bigLabel
+    }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
@@ -9,17 +27,8 @@ class GroupSection: TableSection {
             return cell
         }
         cell.textLabel?.text = group.name
-        cell.accessoryType = group.isFavorite ? .checkmark : .none
+        cell.accessoryType = .checkmark
         return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let cell = tableView.cellForRow(at: indexPath), let group = self.visibleResults?[indexPath.row] as? Group else {
-            return
-        }
-        self.results?.realm.beginWriteTransaction()
-        group.isFavorite = cell.accessoryType == .checkmark ? false : true
-        try? self.results?.realm.commitWriteTransactionWithoutNotifying([])
     }
     
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
