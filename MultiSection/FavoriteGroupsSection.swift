@@ -6,7 +6,7 @@ class FavoriteGroupsSection: TableSection {
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return self.visibleResults?.count == 0 ? 0 : 44
     }
-        
+    
     override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if self.visibleResults?.count == 0 {
             return nil

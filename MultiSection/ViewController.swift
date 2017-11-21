@@ -24,7 +24,17 @@ class ViewController: UIViewController {
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Join school", style: .plain, target: self, action: #selector(self.joinSchoolTapped))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Add custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
-
+        
+        let addDataButton = UIButton(type: .system)
+        addDataButton.addTarget(self, action: #selector(self.addDataTapped(sender:)), for: .touchUpInside)
+        addDataButton.setTitle("Add Data", for: .normal)
+        addDataButton.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(addDataButton)
+        NSLayoutConstraint.activate([
+            addDataButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
+            addDataButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -8),
+            ])
+        
         let realm = RLMRealm.default()
         self.realm = realm
         
@@ -70,13 +80,20 @@ class ViewController: UIViewController {
                                                      sectionTitle: "Favorites")
         favoritesSection.showsHeaderWhenEmpty = false
 
+        let variedHeightSection = VariedHeightSection(results: nil,
+                                                      tableView: self.tableView,
+                                                      cellClass: UITableViewCell.self,
+                                                      cellReuseIdentifier: "variedCell",
+                                                      sectionTitle: "Varied Height Cells")
+
         let sections = [
             ownedClassesSection,
             addOwnedClassSection,
             joinedClassesSection,
             addJoinedClassSection,
             organizationsSection,
-            favoritesSection
+            favoritesSection,
+            variedHeightSection
         ]
         self.sectionCollection = TableSectionCollection(sections: sections, tableView: self.tableView)
         self.tableView.dataSource = self.sectionCollection
@@ -117,34 +134,35 @@ class ViewController: UIViewController {
         self.navigationItem.leftBarButtonItem?.title = self.customSection == nil ? "Add custom" : "Remove custom"
     }
     
-    override func motionBegan(_ motion: UIEventSubtype, with event: UIEvent?) {
-        super.motionBegan(motion, with: event)
-        
-        if Group.allObjects().count > 19 {
+    func addDataTapped(sender: UIButton) {
+        if sender.title(for: .normal) == "Remove Data" {
             self.deleteAllObjects()
+            sender.setTitle("Add Data", for: .normal)
             return
         }
+
+        sender.setTitle("Remove Data", for: .normal)
         
         Thread {
             for _ in 0..<20 {
                 self.addRandomGroup()
                 usleep(250000)
             }
-        }.start()
+            }.start()
         
         Thread {
             for _ in 0..<20 {
                 self.updateRandomGroup()
                 usleep(250000)
             }
-        }.start()
+            }.start()
         
         Thread {
             for _ in 0..<10 {
                 self.deleteRandomGroup()
                 usleep(500000)
             }
-        }.start()
+            }.start()
     }
     
     func deleteAllObjects() {
