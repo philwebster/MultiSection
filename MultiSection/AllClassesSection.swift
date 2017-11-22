@@ -7,6 +7,10 @@ protocol AllClassesSelectionDelegate: class {
 class AllClassesSection: TableSection {
     
     weak var allClassesSelectionDelegate: AllClassesSelectionDelegate?
+    
+    required init(tableView: UITableView) {
+        super.init(results: nil, tableView: tableView, cellReuseIdentifier: "allClassesCell")
+    }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
@@ -31,4 +35,3 @@ class AllClassesSection: TableSection {
         return 0
     }
 }
-

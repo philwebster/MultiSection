@@ -51,9 +51,17 @@ protocol GroupSectionSelectionDelegate: class {
 }
 
 class GroupSection: TableSection {
-    
+
     weak var selectionDelegate: GroupSectionSelectionDelegate?
-    
+
+    convenience init(results: RLMResults<AnyObject>?, tableView: UITableView, sectionTitle: String?) {
+        self.init(results: results,
+                  tableView: tableView,
+                  cellClass: GroupCell.self,
+                  cellReuseIdentifier: "groupCell",
+                  sectionTitle: sectionTitle)
+    }
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let group = self.frozenResults?[indexPath.row] as? Group else {
             return

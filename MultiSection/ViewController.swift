@@ -7,6 +7,7 @@ class ViewController: UIViewController {
     let tableView = UITableView()
     var sectionCollection: TableSectionCollection?
     var customSection: CustomSection?
+    var statusContainer: UIView?
     var selectionLabel: UILabel?
     
     override func viewDidLoad() {
@@ -26,44 +27,49 @@ class ViewController: UIViewController {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Join school", style: .plain, target: self, action: #selector(self.joinSchoolTapped))
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Add custom", style: .plain, target: self, action: #selector(self.toggleCustomSection))
         
+        let statusContainer = UIView()
+        self.statusContainer = statusContainer
+        statusContainer.backgroundColor = UIColor.lightGray.withAlphaComponent(0.95)
+        statusContainer.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(statusContainer)
+        
         let addDataButton = UIButton(type: .system)
         addDataButton.addTarget(self, action: #selector(self.addDataTapped(sender:)), for: .touchUpInside)
         addDataButton.setTitle("Add Data", for: .normal)
         addDataButton.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(addDataButton)
+        statusContainer.addSubview(addDataButton)
         NSLayoutConstraint.activate([
-            addDataButton.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: -8),
-            addDataButton.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -8),
+            addDataButton.rightAnchor.constraint(equalTo: statusContainer.rightAnchor, constant: -8),
+            addDataButton.bottomAnchor.constraint(equalTo: statusContainer.bottomAnchor, constant: -8),
             ])
 
         let selectionLabel = UILabel()
         selectionLabel.translatesAutoresizingMaskIntoConstraints = false
-        self.view.addSubview(selectionLabel)
+        statusContainer.addSubview(selectionLabel)
         NSLayoutConstraint.activate([
-            selectionLabel.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: 8),
-            selectionLabel.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -8),
+            selectionLabel.leftAnchor.constraint(equalTo: statusContainer.leftAnchor, constant: 8),
+            selectionLabel.centerYAnchor.constraint(equalTo: addDataButton.centerYAnchor)
             ])
         self.selectionLabel = selectionLabel
+        
+        NSLayoutConstraint.activate([
+            statusContainer.leftAnchor.constraint(equalTo: self.view.leftAnchor),
+            statusContainer.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            statusContainer.rightAnchor.constraint(equalTo: self.view.rightAnchor),
+            statusContainer.topAnchor.constraint(equalTo: addDataButton.topAnchor, constant: -8)
+            ])
 
         let realm = RLMRealm.default()
         self.realm = realm
         
         let nameSort = RLMSortDescriptor(keyPath: "name", ascending: true)
         
-        let allClassesSection = AllClassesSection(results: nil,
-                                                  tableView: self.tableView,
-                                                  cellClass: UITableViewCell.self,
-                                                  cellReuseIdentifier: "allclassesCell",
-                                                  sectionTitle: nil)
+        let allClassesSection = AllClassesSection(tableView: self.tableView)
         allClassesSection.allClassesSelectionDelegate = self
         
         let ownedPredicate = "SELF.isOwned == TRUE"
         let ownedClasses = Group.allObjects(in: realm).objectsWhere(ownedPredicate, args: getVaList([])).sortedResults(using: [nameSort])
-        let ownedClassesSection = GroupSection(results: ownedClasses,
-                                               tableView: self.tableView,
-                                               cellClass: GroupCell.self,
-                                               cellReuseIdentifier: "ownedCell",
-                                               sectionTitle: "Owned Classes")
+        let ownedClassesSection = GroupSection(results: ownedClasses, tableView: self.tableView, sectionTitle: "Owned Classes")
         ownedClassesSection.selectionDelegate = self
         
         let addOwnedClassSection = AddButtonSection(tableView: self.tableView) { [weak self] in
@@ -72,11 +78,7 @@ class ViewController: UIViewController {
         
         let joinedPredicate = "SELF.isOwned == FALSE && SELF.isOrganization == FALSE"
         let joinedClasses = Group.allObjects(in: realm).objectsWhere(joinedPredicate, args: getVaList([])).sortedResults(using: [nameSort])
-        let joinedClassesSection = GroupSection(results: joinedClasses,
-                                                tableView: self.tableView,
-                                                cellClass: GroupCell.self,
-                                                cellReuseIdentifier: "joinedCell",
-                                                sectionTitle: "Joined Classes")
+        let joinedClassesSection = GroupSection(results: joinedClasses, tableView: self.tableView, sectionTitle: "Joined Classes")
         joinedClassesSection.selectionDelegate = self
         
         let addJoinedClassSection = AddButtonSection(tableView: self.tableView) { [weak self] in
@@ -84,20 +86,12 @@ class ViewController: UIViewController {
         }
         
         let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([])).sortedResults(using: [nameSort])
-        let organizationsSection = GroupSection(results: organizations,
-                                                tableView: self.tableView,
-                                                cellClass: GroupCell.self,
-                                                cellReuseIdentifier: "orgCell",
-                                                sectionTitle: "Schools")
+        let organizationsSection = GroupSection(results: organizations, tableView: self.tableView, sectionTitle: "Schools")
         organizationsSection.selectionDelegate = self
         organizationsSection.showsHeaderWhenEmpty = false
         
         let favorites = Group.allObjects(in: realm).objectsWhere("SELF.isFavorite == TRUE", args: getVaList([ ]))
-        let favoritesSection = FavoriteGroupsSection(results: favorites,
-                                                     tableView: self.tableView,
-                                                     cellClass: GroupCell.self,
-                                                     cellReuseIdentifier: "favoriteCell",
-                                                     sectionTitle: "Favorites")
+        let favoritesSection = FavoriteGroupsSection(results: favorites, tableView: self.tableView, sectionTitle: nil)
         favoritesSection.showsHeaderWhenEmpty = false
 
         let variedHeightSection = VariedHeightSection(results: nil,
@@ -119,6 +113,12 @@ class ViewController: UIViewController {
         self.sectionCollection = TableSectionCollection(sections: sections, tableView: self.tableView)
         self.tableView.dataSource = self.sectionCollection
         self.tableView.delegate = self.sectionCollection
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        self.tableView.contentInset.bottom = self.statusContainer?.bounds.height ?? 0
+        self.tableView.scrollIndicatorInsets.bottom = self.tableView.contentInset.bottom
     }
     
     func showAddClassAlert(isOwned: Bool, isOrganization: Bool = false) {

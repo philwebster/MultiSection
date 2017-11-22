@@ -4,9 +4,9 @@ class AddButtonSection: TableSection {
     
     var tapHandler: ()->()
     
-    init(tableView: UITableView, tapHandler: @escaping ()->()) {
+    required init(tableView: UITableView, tapHandler: @escaping ()->()) {
         self.tapHandler = tapHandler
-        super.init(results: nil, tableView: tableView)
+        super.init(results: nil, tableView: tableView, cellClass: UITableViewCell.self, cellReuseIdentifier: "addCell", sectionTitle: nil)
     }
 
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
