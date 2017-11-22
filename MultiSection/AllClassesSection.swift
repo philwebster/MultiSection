@@ -7,7 +7,6 @@ protocol AllClassesSelectionDelegate: class {
 class AllClassesSection: TableSection {
     
     weak var allClassesSelectionDelegate: AllClassesSelectionDelegate?
-    var selectedIndexPath: IndexPath?
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.selectedIndexPath = indexPath
@@ -25,11 +24,6 @@ class AllClassesSection: TableSection {
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
         cell.textLabel?.text = "All Classes"
-        
-        if (indexPath == self.selectedIndexPath) {
-            tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
-        }
-
         return cell
     }
     

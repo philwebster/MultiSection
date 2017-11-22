@@ -9,6 +9,7 @@ class GroupCell: UITableViewCell {
     
     var favoriteButton = UIButton(type: .system)
     weak var delegate: GroupCellDelegate?
+    var lockSelection = false
 
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -29,6 +30,20 @@ class GroupCell: UITableViewCell {
         let favorite = sender.title(for: .normal) == "☆"
         self.delegate?.groupCell(self, tappedFavorite: favorite)
     }
+    
+    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
+        if self.lockSelection {
+            return
+        }
+        super.setHighlighted(highlighted, animated: animated)
+    }
+    
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if self.lockSelection {
+            return
+        }
+        super.setSelected(selected, animated: animated)
+    }
 }
 
 protocol GroupSectionSelectionDelegate: class {
@@ -38,19 +53,18 @@ protocol GroupSectionSelectionDelegate: class {
 class GroupSection: TableSection {
     
     weak var selectionDelegate: GroupSectionSelectionDelegate?
-    var selectedIndexPath: IndexPath?
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let group = self.frozenResults?[indexPath.row] as? Group else {
             return
         }
-        self.selectedIndexPath = indexPath
+
+        self.selectedObjectIdentifier = group.uuid
         self.selectionDelegate?.groupSection(self, didSelect: group)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        self.selectedIndexPath = nil
-        self.selectionDelegate?.groupSection(self, didSelect: nil)
+        self.selectedObjectIdentifier = nil
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -61,17 +75,46 @@ class GroupSection: TableSection {
         }
         cell.textLabel?.text = group.name
         cell.setFavorited(favorited: group.isFavorite)
+        cell.lockSelection = false
         cell.delegate = self
         
-        if (indexPath == self.selectedIndexPath) {
+        if group.uuid == self.selectedObjectIdentifier {
             tableView.selectRow(at: indexPath, animated: false, scrollPosition: .none)
         }
         
         return cell
     }
     
+    override func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        let visibleIndexPathsInThisSection = self.table?.indexPathsForVisibleRows?.filter { (indexPath) -> Bool in
+            return indexPath.section == self.delegate?.indexOfTableSection(self)
+        }
+        visibleIndexPathsInThisSection?.forEach { (indexPath) in
+            guard let cell = tableView.cellForRow(at: indexPath) as? GroupCell else {
+                return
+            }
+            cell.lockSelection = true
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        tableView.visibleCells.forEach { (cell) in
+            guard let cell = cell as? GroupCell else {
+                return
+            }
+            cell.lockSelection = false
+        }
+    }
+    
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return true
+    }
+    
     override func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if let classToDelete = self.frozenResults?[indexPath.row] as? Group {
+            if classToDelete.uuid == self.selectedObjectIdentifier {
+                self.selectedObjectIdentifier = nil
+            }
             let title = classToDelete.isOwned ? "Delete" : "Leave"
             let action = UIContextualAction(style: .destructive, title: title, handler: { (action, sourceView, completionHandler) in
                 self.results?.realm.beginWriteTransaction()
@@ -81,7 +124,7 @@ class GroupSection: TableSection {
             })
             return UISwipeActionsConfiguration(actions: [action])
         }
-        
+
         return nil
     }
 }

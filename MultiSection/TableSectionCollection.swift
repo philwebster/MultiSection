@@ -44,12 +44,20 @@ extension TableSectionCollection {
 
 extension TableSectionCollection {
     
+    override func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        return self.sections[indexPath.section].tableView(tableView, shouldHighlightRowAt: indexPath)
+    }
+    
     override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
         return self.sections[indexPath.section].tableView(tableView, willSelectRowAt: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.sections[indexPath.section].tableView(tableView, didSelectRowAt: indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
+        return self.sections[indexPath.section].tableView(tableView, willDeselectRowAt: indexPath)
     }
     
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
@@ -84,8 +92,18 @@ extension TableSectionCollection {
         return self.sections[indexPath.section].tableView(tableView, trailingSwipeActionsConfigurationForRowAt: indexPath)
     }
 
-    override func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCellEditingStyle {
-        return self.sections[indexPath.section].tableView(tableView, editingStyleForRowAt: indexPath)
+    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
+        return self.sections[indexPath.section].tableView(tableView, canEditRowAt:indexPath)
+    }
+    
+    override func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
+        self.sections.forEach { $0.tableView(tableView, willBeginEditingRowAt: indexPath) }
+    }
+    
+    override func tableView(_ tableView: UITableView, didEndEditingRowAt indexPath: IndexPath?) {
+        let selection = self.sections.flatMap { $0.selectedIndexPath }.first
+        self.table?.selectRow(at: selection, animated: false, scrollPosition: .none)
+        self.sections.forEach { $0.tableView(tableView, didEndEditingRowAt: indexPath) }
     }
 
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {

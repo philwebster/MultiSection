@@ -50,7 +50,11 @@ class ViewController: UIViewController {
         
         let nameSort = RLMSortDescriptor(keyPath: "name", ascending: true)
         
-        let allClassesSection = AllClassesSection(results: nil, tableView: self.tableView)
+        let allClassesSection = AllClassesSection(results: nil,
+                                                  tableView: self.tableView,
+                                                  cellClass: UITableViewCell.self,
+                                                  cellReuseIdentifier: "allclassesCell",
+                                                  sectionTitle: nil)
         allClassesSection.allClassesSelectionDelegate = self
         
         let ownedPredicate = "SELF.isOwned == TRUE"
@@ -79,7 +83,7 @@ class ViewController: UIViewController {
             self?.showAddClassAlert(isOwned: false)
         }
         
-        let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([]))
+        let organizations = Group.allObjects(in: realm).objectsWhere("SELF.isOrganization == TRUE", args: getVaList([])).sortedResults(using: [nameSort])
         let organizationsSection = GroupSection(results: organizations,
                                                 tableView: self.tableView,
                                                 cellClass: GroupCell.self,
@@ -194,13 +198,13 @@ class ViewController: UIViewController {
     func addRandomGroup() {
         let realm = RLMRealm.default()
         let newGroup = Group()
-        newGroup.name = "\(String(describing: Calendar.current.dateComponents([.nanosecond], from: Date()).nanosecond!))"
+        newGroup.name = "\(String(describing: Calendar.current.dateComponents([.nanosecond], from: Date()).nanosecond! / 10000))"
         newGroup.isOwned = arc4random() % 2 == 0
         if !newGroup.isOwned {
             newGroup.isOrganization = arc4random() % 2 == 0
         }
         newGroup.isFavorite = arc4random() % 2 == 0
-        newGroup.name = (newGroup.isOrganization ? "school " : "class ") + newGroup.name
+        newGroup.name = (newGroup.isOrganization ? "School " : "Class ") + newGroup.name
         realm.beginWriteTransaction()
         realm.add(newGroup)
         try? realm.commitWriteTransactionWithoutNotifying([])

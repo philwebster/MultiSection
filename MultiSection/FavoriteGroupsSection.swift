@@ -21,6 +21,11 @@ class FavoriteGroupsSection: TableSection {
         return bigLabel
     }
     
+    override func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
+        // Favorites cannot be selected
+        return nil
+    }
+    
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: self.cellReuseIdentifier, for: indexPath)
         guard let group = self.frozenResults?[indexPath.row] as? Group, group.isInvalidated == false else {
